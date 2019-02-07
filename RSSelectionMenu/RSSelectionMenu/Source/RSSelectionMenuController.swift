@@ -46,6 +46,9 @@ open class RSSelectionMenu<T>: UIViewController, UIPopoverPresentationController
     /// dismiss: for Single selection only
     public var dismissAutomatically: Bool = true
     
+    /// Indicates whether to dismiss with or without animation when dismissing implicitly (e.g. when tapping 'done')
+    public var animated: Bool = true
+    
     /// property name or unique key is required when using custom models array or dictionary array as datasource
     public var uniquePropertyName: String?
     
@@ -218,7 +221,7 @@ open class RSSelectionMenu<T>: UIViewController, UIPopoverPresentationController
     }
     
     @objc func onBackgroundTapped(sender: UITapGestureRecognizer){
-        self.dismiss()
+        self.dismiss(animated: self.animated)
     }
     
     /// Done button
@@ -229,7 +232,7 @@ open class RSSelectionMenu<T>: UIViewController, UIPopoverPresentationController
     }
     
     @objc func doneButtonTapped() {
-        self.dismiss()
+        self.dismiss(animated: self.animated)
     }
     
     /// cancel button
@@ -292,27 +295,30 @@ extension RSSelectionMenu {
     }
     
     /// Show
-    public func show(from: UIViewController) {
-        self.show(style: .present, from: from)
+    public func show(from: UIViewController, animated: Bool = true) {
+        self.show(style: .present, from: from, animated: animated)
     }
     
-    public func show(style: PresentationStyle, from: UIViewController) {
-        self.showMenu(with: style, from: from)
+    public func show(style: PresentationStyle, from: UIViewController, animated: Bool = true) {
+        self.showMenu(with: style, from: from, animated: animated)
     }
     
     /// dismiss
-    public func dismiss(animated: Bool? = true) {
-        
+    //This variation is necessary because instance variables cannot be used as default parameter values
+    public func dismiss() {
+        self.dismiss(animated: nil)
+    }
+    
+    public func dismiss(animated: Bool?) {
         DispatchQueue.main.async { [weak self] in
-            
             // perform on dimiss operations
             self?.menuWillDismiss()
             
             switch self?.menuPresentationStyle {
             case .push?:
-                self?.navigationController?.popViewController(animated: animated!)
+                self?.navigationController?.popViewController(animated: (animated ?? self?.animated)!)
             case .present?, .popover?, .formSheet?, .alert?, .actionSheet?:
-               self?.dismiss(animated: animated!, completion: nil)
+               self?.dismiss(animated: (animated ?? self?.animated)!, completion: nil)
             case .none:
                 break
             }
@@ -366,12 +372,12 @@ extension RSSelectionMenu {
     }
     
     // show
-    fileprivate func showMenu(with: PresentationStyle, from: UIViewController) {
+    fileprivate func showMenu(with: PresentationStyle, from: UIViewController, animated: Bool) {
         parentController = from
         menuPresentationStyle = with
         
         if case .push = with {
-            from.navigationController?.pushViewController(self, animated: true)
+            from.navigationController?.pushViewController(self, animated: animated)
             return
         }
         
@@ -410,7 +416,7 @@ extension RSSelectionMenu {
             }
         }
         
-        from.present(tobePresentController, animated: true, completion: nil)
+        from.present(tobePresentController, animated: animated, completion: nil)
     }
     
     // get alert controller
