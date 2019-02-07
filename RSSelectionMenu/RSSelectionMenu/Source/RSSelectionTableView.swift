@@ -187,7 +187,7 @@ extension RSSelectionTableView {
             return
         }
         if selectionStyle == .single && selectionMenu.dismissAutomatically {
-            selectionMenu.dismiss(withAnimation: selectionMenu.animated)
+            selectionMenu.dismissMenu(animated: selectionMenu.animated)
         }
     }
 }

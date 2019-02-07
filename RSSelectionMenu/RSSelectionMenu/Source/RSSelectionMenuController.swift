@@ -221,7 +221,7 @@ open class RSSelectionMenu<T>: UIViewController, UIPopoverPresentationController
     }
     
     @objc func onBackgroundTapped(sender: UITapGestureRecognizer){
-        self.dismiss(withAnimation: self.animated)
+        self.dismissMenu(animated: self.animated)
     }
     
     /// Done button
@@ -232,7 +232,7 @@ open class RSSelectionMenu<T>: UIViewController, UIPopoverPresentationController
     }
     
     @objc func doneButtonTapped() {
-        self.dismiss(withAnimation: self.animated)
+        self.dismissMenu(animated: self.animated)
     }
     
     /// cancel button
@@ -241,8 +241,6 @@ open class RSSelectionMenu<T>: UIViewController, UIPopoverPresentationController
         let cancelButton = UIBarButtonItem(title: cancelTitle, style: .plain, target: self, action: #selector(doneButtonTapped))
         navigationItem.leftBarButtonItem = cancelButton
     }
-    
-    
     
     // MARK: - UIPopoverPresentationControllerDelegate
     public func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
@@ -306,10 +304,10 @@ extension RSSelectionMenu {
     /// dismiss
     //This variation is necessary because instance variables cannot be used as default parameter values
     public func dismiss() {
-        self.dismiss(withAnimation: nil)
+        self.dismissMenu(animated: nil)
     }
     
-    public func dismiss(withAnimation animated: Bool?) {
+    public func dismissMenu(animated: Bool?) {
         DispatchQueue.main.async { [weak self] in
             // perform on dimiss operations
             self?.menuWillDismiss()
@@ -327,7 +325,7 @@ extension RSSelectionMenu {
         }
     }
     
-    @available(*, unavailable, renamed: "dismiss(withAnimation:)")
+    @available(*, unavailable, renamed: "dismissMenu(animated:)")
     public func dismiss(animated: Bool? = true) {}
 }
 
