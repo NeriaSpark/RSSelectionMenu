@@ -70,8 +70,14 @@ open class RSSelectionMenu<T>: UIViewController, UIPopoverPresentationController
     /// Selection menu willAppear handler
     public var onWillAppear:(() -> ())?
     
-    /// Selection menu dismissal handler
+    /// Selection menu pre-dismissal handler
+    public var onWillDismiss:((_ selectedItems: DataSource<T>) -> ())?
+    
+    @available(*, unavailable, renamed: "onWillDismiss")
     public var onDismiss:((_ selectedItems: DataSource<T>) -> ())?
+    
+    /// Selection menu post-dismissal handler
+    public var onDidDismiss:(() -> ())?
     
     
     // MARK: - Private
@@ -310,6 +316,8 @@ extension RSSelectionMenu {
             case .none:
                 break
             }
+            
+            self?.menuDidDismiss()
         }
     }
 }
@@ -335,7 +343,7 @@ extension RSSelectionMenu {
         return false
     }
     
-    // perform operation on dismiss
+    // perform operation before dismissal
     fileprivate func menuWillDismiss() {
         
         // dismiss search
@@ -343,9 +351,17 @@ extension RSSelectionMenu {
             if searchBar.isFirstResponder { searchBar.resignFirstResponder() }
         }
         
-        // on menu dismiss
-        if let dismissHandler = self.onDismiss {
-            dismissHandler(self.tableView?.selectionDelegate?.selectedItems ?? [])
+        // on menu will dismiss
+        if let willDismissHandler = self.onWillDismiss {
+            willDismissHandler(self.tableView?.selectionDelegate?.selectedItems ?? [])
+        }
+    }
+    
+    // perform operation after dismissal
+    fileprivate func menuDidDismiss() {
+        
+        if let didDsmissHandler = self.onDidDismiss {
+            didDsmissHandler()
         }
     }
     
