@@ -303,7 +303,7 @@ extension RSSelectionMenu {
     
     /// dismiss
     //This variation is necessary because instance variables cannot be used as default parameter values
-    public func dismiss() {
+    public func dismissMenu() {
         self.dismissMenu(animated: nil)
     }
     
