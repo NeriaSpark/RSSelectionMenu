@@ -221,7 +221,7 @@ open class RSSelectionMenu<T>: UIViewController, UIPopoverPresentationController
     }
     
     @objc func onBackgroundTapped(sender: UITapGestureRecognizer){
-        self.dismiss(animated: self.animated)
+        self.dismiss(withAnimation: self.animated)
     }
     
     /// Done button
@@ -232,7 +232,7 @@ open class RSSelectionMenu<T>: UIViewController, UIPopoverPresentationController
     }
     
     @objc func doneButtonTapped() {
-        self.dismiss(animated: self.animated)
+        self.dismiss(withAnimation: self.animated)
     }
     
     /// cancel button
