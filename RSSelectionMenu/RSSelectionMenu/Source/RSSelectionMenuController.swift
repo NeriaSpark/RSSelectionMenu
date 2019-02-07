@@ -306,10 +306,10 @@ extension RSSelectionMenu {
     /// dismiss
     //This variation is necessary because instance variables cannot be used as default parameter values
     public func dismiss() {
-        self.dismiss(animated: nil)
+        self.dismiss(withAnimation: nil)
     }
     
-    public func dismiss(animated: Bool?) {
+    public func dismiss(withAnimation animated: Bool?) {
         DispatchQueue.main.async { [weak self] in
             // perform on dimiss operations
             self?.menuWillDismiss()
@@ -326,6 +326,9 @@ extension RSSelectionMenu {
             self?.menuDidDismiss()
         }
     }
+    
+    @available(*, unavailable, renamed: "dismiss(withAnimation:)")
+    public func dismiss(animated: Bool? = true) {}
 }
 
 //MARK:- Private

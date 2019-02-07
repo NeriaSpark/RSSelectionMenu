@@ -183,9 +183,11 @@ extension RSSelectionTableView {
     
     /// dismiss
     func dismissMenuIfRequired() {
-        let dismiss = selectionMenu?.dismissAutomatically ?? false
-        if selectionStyle == .single && dismiss {
-            selectionMenu?.dismiss(animated: selectionMenu?.animated)
+        guard let selectionMenu = selectionMenu else {
+            return
+        }
+        if selectionStyle == .single && selectionMenu.dismissAutomatically {
+            selectionMenu.dismiss(withAnimation: selectionMenu.animated)
         }
     }
 }
