@@ -427,6 +427,7 @@ extension RSSelectionMenu {
         let actionTitle = action ?? doneButtonTitle
         let doneAction = UIAlertAction(title: actionTitle, style: .cancel) { [weak self] (doneButton) in
             self?.menuWillDismiss()
+            self?.menuDidDismiss()
         }
         
         // add done action
