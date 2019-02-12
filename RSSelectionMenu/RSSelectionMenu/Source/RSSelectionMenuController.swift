@@ -82,6 +82,8 @@ open class RSSelectionMenu<T>: UIViewController, UIPopoverPresentationController
     /// Selection menu post-dismissal handler
     public var onDidDismiss:(() -> ())?
     
+    /// Selection menu back button tap handler
+    public var onBackButtonTapped:(() -> ())?
     
     // MARK: - Private
     
@@ -97,6 +99,8 @@ open class RSSelectionMenu<T>: UIViewController, UIPopoverPresentationController
     /// backgroundView
     fileprivate var backgroundView = UIView()
     
+    /// Indicates that dismissMenu was called (hence 'Back' button was NOT tapped); used in didMove
+    fileprivate var dismissed = false
     
     // MARK: - Init
     
@@ -139,6 +143,15 @@ open class RSSelectionMenu<T>: UIViewController, UIPopoverPresentationController
     override open func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)
         view.endEditing(true)
+    }
+    
+    override open func didMove(toParent parent: UIViewController?) {
+        super.didMove(toParent: parent)
+        
+        //Back button tapped
+        if parent == nil && !dismissed {
+            backButtonTap()
+        }
     }
     
     // MARK: - Setup Views
@@ -308,6 +321,7 @@ extension RSSelectionMenu {
     }
     
     public func dismissMenu(animated: Bool?) {
+        self.dismissed = true
         DispatchQueue.main.async { [weak self] in
             // perform on dimiss operations
             self?.menuWillDismiss()
@@ -369,6 +383,14 @@ extension RSSelectionMenu {
         
         if let didDsmissHandler = self.onDidDismiss {
             didDsmissHandler()
+        }
+    }
+    
+    // perform operation on back button tap
+    fileprivate func backButtonTap() {
+        
+        if let backButtonTapHandler = self.onBackButtonTapped {
+            backButtonTapHandler()
         }
     }
     
