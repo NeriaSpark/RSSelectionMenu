@@ -166,6 +166,10 @@ open class RSSelectionMenu<T>: UIViewController, UIPopoverPresentationController
         backgroundView.addSubview(tableView!)
         view.addSubview(backgroundView)
         
+        if let leftBarButtonTitle = leftBarButtonTitle {
+            self.navigationController?.navigationBar.topItem?.title = leftBarButtonTitle
+        }
+        
         // done button
         if showDoneButton() {
             setDoneButton()
