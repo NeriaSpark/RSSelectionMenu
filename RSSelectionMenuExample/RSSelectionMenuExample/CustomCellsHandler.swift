@@ -49,7 +49,7 @@ extension ViewController {
         selectionMenu.cellSelectionStyle = self.cellSelectionStyle
         
         // on dismiss handler - get selected items
-        selectionMenu.onDismiss = { [weak self] selectedItems in
+        selectionMenu.onWillDismiss = { [weak self] selectedItems in
             
             // update selected items
             self?.customselectedDataArray = selectedItems

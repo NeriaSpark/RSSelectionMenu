@@ -139,7 +139,7 @@ extension ViewController {
         menu.setNavigationBar(title: "Select Player")
         
         // on dissmis handler
-        menu.onDismiss = { selectedItems in
+        menu.onWillDismiss = { selectedItems in
             
             /// do some stuff
             
@@ -196,7 +196,7 @@ extension ViewController {
         }
         
         // on menu dissmiss
-        selectionMenu.onDismiss = { [weak self] selectedItems in
+        selectionMenu.onWillDismiss = { [weak self] selectedItems in
             
             self?.selectedDataArray = selectedItems
             
@@ -230,7 +230,7 @@ extension ViewController {
         }
         
         // on dismiss handler
-        selectionMenu.onDismiss = { [weak self] items in
+        selectionMenu.onWillDismiss = { [weak self] items in
             
             self?.simpleSelectedArray = items
             

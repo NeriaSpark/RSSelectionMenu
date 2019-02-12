@@ -57,7 +57,7 @@ extension ViewController {
         }
         
         // on dismiss handler
-        selectionMenu.onDismiss = { [weak self] items in
+        selectionMenu.onWillDismiss = { [weak self] items in
             
             self?.simpleSelectedArray = items
             
